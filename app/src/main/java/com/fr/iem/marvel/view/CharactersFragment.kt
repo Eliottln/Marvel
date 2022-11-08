@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fr.iem.marvel.R
 import com.fr.iem.marvel.databinding.FragmentCharactersBinding
@@ -31,7 +32,7 @@ class CharactersFragment : Fragment() {
 
         val adapter = CharactersAdapter()
         binding.charactersRv.adapter = adapter
-        binding.charactersRv.layoutManager = LinearLayoutManager(context)
+        binding.charactersRv.layoutManager = GridLayoutManager(context, 2)
 
         homeViewModel.charactersList.observe(viewLifecycleOwner) {
             adapter.charactersList = it as ArrayList<MarvelCharactersResults>

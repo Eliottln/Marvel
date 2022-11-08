@@ -3,11 +3,14 @@ package com.fr.iem.marvel.view.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.fr.iem.marvel.R
 import com.fr.iem.marvel.model.character.MarvelCharactersResults
 import com.fr.iem.marvel.model.comics.MarvelComicsResults
+import com.squareup.picasso.Picasso
 
 class CharactersAdapter: RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
 
@@ -15,8 +18,10 @@ class CharactersAdapter: RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         var name: TextView
+        var avatar: ImageView
         init {
             name = view.findViewById(R.id.name_tv)
+            avatar = view.findViewById(R.id.character_iv)
         }
     }
 
@@ -26,7 +31,12 @@ class CharactersAdapter: RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = charactersList[position].name
+        val item = charactersList[position]
+        val path = "${item.thumbnail?.path}.${item.thumbnail?.extension ?: "jpg"}"
+//        Glide.with(context)
+//            .load(path)
+//            .into(avatar)
+        holder.name.text = item.name
     }
 
     override fun getItemCount(): Int {
