@@ -7,18 +7,19 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.fr.iem.marvel.R
+import com.fr.iem.marvel.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        val bottomNavigation: BottomNavigationView = findViewById(R.id.nav_view)
-        bottomNavigation.setOnItemSelectedListener {
+        binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.page_comics -> {
                     switchFragment(ComicsFragment())
@@ -32,13 +33,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        return super.onCreateView(name, context, attrs)
+        setContentView(binding.root)
     }
 
     private fun switchFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fragmentContainerView, fragment)
+        fragmentTransaction.replace(R.id.fragmentContainerView, fragment)
         fragmentTransaction.commit()
     }
 }

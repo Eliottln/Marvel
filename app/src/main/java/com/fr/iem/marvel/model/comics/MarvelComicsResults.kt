@@ -2,7 +2,6 @@ package com.fr.iem.marvel.model.comics
 
 import com.fr.iem.marvel.model.*
 import com.google.gson.annotations.SerializedName
-import fr.iem.model.*
 
 data class MarvelComicsResults(
     @SerializedName("id") var id: Int? = null,

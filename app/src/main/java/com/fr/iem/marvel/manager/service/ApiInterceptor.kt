@@ -1,7 +1,7 @@
 package com.fr.iem.marvel.manager.service
 
+import com.fr.iem.marvel.BuildConfig
 import com.fr.iem.marvel.extensions.hashMD5
-import com.fr.iem.marvel.manager.resource.ResourceManagerImpl
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.util.*
@@ -9,9 +9,8 @@ import java.util.*
 
 class ApiInterceptor : Interceptor {
 
-    private val publicKey = ResourceManagerImpl().readProperties("PUBLIC_KEY")
-    private val privateKey = ResourceManagerImpl().readProperties("PRIVATE_KEY")
-
+    private val publicKey = BuildConfig.MARVEL_PUBLIC_API_KEY
+    private val privateKey = BuildConfig.MARVEL_PRIVATE_API_KEY
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val timestamp = Date().time.toString()

@@ -1,6 +1,5 @@
 package com.fr.iem.marvel.model.comics
 
-import com.fr.iem.marvel.model.comics.MarvelComicsData
 import com.google.gson.annotations.SerializedName
 
 data class MarvelComicsResponse(
