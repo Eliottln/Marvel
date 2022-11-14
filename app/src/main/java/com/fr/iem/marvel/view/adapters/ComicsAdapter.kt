@@ -1,41 +1,39 @@
 package com.fr.iem.marvel.view.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.fr.iem.marvel.R
+import com.fr.iem.marvel.databinding.HomeItemBinding
 import com.fr.iem.marvel.models.comics.MarvelComicsResults
 
-class ComicsAdapter(private val context: Context): RecyclerView.Adapter<ComicsAdapter.ViewHolder>() {
+class ComicsAdapter(private val context: Context, private var onItemClicked: ((id: Int) -> Unit)): RecyclerView.Adapter<ComicsAdapter.ViewHolder>() {
 
     var comicsList: ArrayList<MarvelComicsResults> = arrayListOf()
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        var title: TextView
-        var avatar: ImageView
-        init {
-            title = view.findViewById(R.id.name_tv)
-            avatar = view.findViewById(R.id.item_iv)
+    inner class ViewHolder(private val binding: HomeItemBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(comics: MarvelComicsResults) = binding.apply {
+            val path = "${comics.thumbnail?.path}.${comics.thumbnail?.extension ?: "jpg"}"
+            Glide.with(context)
+                .load(path)
+                .into(binding.image)
+            binding.name.text = comics.title
+
+            root.setOnClickListener {
+                onItemClicked(comics.id!!)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.home_item, parent, false)
-        return ViewHolder(layout)
+        val binding = HomeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = comicsList[position]
-        val path = "${item.thumbnail?.path}.${item.thumbnail?.extension ?: "jpg"}"
-        Glide.with(context)
-            .load(path)
-            .into(holder.avatar)
-        holder.title.text = item.title
+        holder.bind(comicsList[position])
     }
 
     override fun getItemCount(): Int {

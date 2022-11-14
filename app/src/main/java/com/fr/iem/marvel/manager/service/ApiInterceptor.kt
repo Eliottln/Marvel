@@ -1,5 +1,6 @@
 package com.fr.iem.marvel.manager.service
 
+import android.util.Log
 import com.fr.iem.marvel.BuildConfig
 import com.fr.iem.marvel.extensions.hashMD5
 import okhttp3.Interceptor
@@ -27,6 +28,8 @@ class ApiInterceptor : Interceptor {
             .newBuilder()
             .url(url)
             .build()
+
+        Log.d("REQUEST", "$request")
 
         return chain.proceed(request)
     }

@@ -12,7 +12,7 @@ import retrofit2.http.Path
 interface RetrofitServiceManager {
 
     companion object {
-        private const val BASE_URL = "https://gateway.marvel.com:443"
+        private const val BASE_URL = "https://gateway.marvel.com"
 
         @Synchronized
         fun getInstance(): RetrofitServiceManager {
@@ -44,7 +44,7 @@ interface RetrofitServiceManager {
     @GET("/v1/public/comics/{comics_id}/characters")
     suspend fun getCharactersInComics(@Path("comics_id") comicsId: Int): MarvelCharactersResponse
 
-    @GET("/v1/public/comics/{comics_id}/creators")
+    @GET("/comics/{comics_id}/creators")
     suspend fun getCreatorsOfComics(@Path("comics_id") comicsId: Int): MarvelCreatorsResponse
 
 }

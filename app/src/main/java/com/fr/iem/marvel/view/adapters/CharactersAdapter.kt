@@ -9,33 +9,31 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fr.iem.marvel.R
+import com.fr.iem.marvel.databinding.HomeItemBinding
 import com.fr.iem.marvel.models.characters.MarvelCharactersResults
+import com.fr.iem.marvel.models.comics.MarvelComicsResults
 
-class CharactersAdapter(private val context: Context): RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
+class CharactersAdapter(val context: Context): RecyclerView.Adapter<CharactersAdapter.ViewHolder>() {
 
     var charactersList: ArrayList<MarvelCharactersResults> = arrayListOf()
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        var name: TextView
-        var avatar: ImageView
-        init {
-            name = view.findViewById(R.id.name_tv)
-            avatar = view.findViewById(R.id.item_iv)
+    class ViewHolder(private val binding: HomeItemBinding): RecyclerView.ViewHolder(binding.root) {
+        fun bind(character: MarvelCharactersResults, context: Context) = binding.apply {
+            val path = "${character.thumbnail?.path}.${character.thumbnail?.extension ?: "jpg"}"
+            Glide.with(context)
+                .load(path)
+                .into(binding.image)
+            binding.name.text = character.name
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.home_item, parent, false)
-        return ViewHolder(layout)
+        val binding = HomeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = charactersList[position]
-        val path = "${item.thumbnail?.path}.${item.thumbnail?.extension ?: "jpg"}"
-        Glide.with(context)
-            .load(path)
-            .into(holder.avatar)
-        holder.name.text = item.name
+        holder.bind(charactersList[position], context)
     }
 
     override fun getItemCount(): Int {

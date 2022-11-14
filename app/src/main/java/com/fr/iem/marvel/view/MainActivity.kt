@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private fun switchFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragmentContainerView, fragment)
+        fragmentTransaction.replace(binding.fragmentContainerHome.id, fragment)
         fragmentTransaction.commit()
     }
 }
