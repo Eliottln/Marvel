@@ -1,7 +1,8 @@
 package com.fr.iem.marvel.manager.service
 
-import com.fr.iem.marvel.model.character.MarvelCharactersResponse
-import com.fr.iem.marvel.model.comics.MarvelComicsResponse
+import com.fr.iem.marvel.models.characters.MarvelCharactersResponse
+import com.fr.iem.marvel.models.comics.MarvelComicsResponse
+import com.fr.iem.marvel.models.creators.MarvelCreatorsResponse
 
 class RetrofitServiceManagerImpl : RetrofitServiceManager {
 
@@ -27,7 +28,7 @@ class RetrofitServiceManagerImpl : RetrofitServiceManager {
         return service.getCharactersInComics(comicsId)
     }
 
-    override suspend fun getCreatorsOfComics(comicsId: Int): MarvelCharactersResponse {
+    override suspend fun getCreatorsOfComics(comicsId: Int): MarvelCreatorsResponse {
         return service.getCreatorsOfComics(comicsId)
     }
 

@@ -1,7 +1,11 @@
-package com.fr.iem.marvel.model.comics
+package com.fr.iem.marvel.models.comics
 
-import com.fr.iem.marvel.model.*
+import com.fr.iem.marvel.models.MarvelDates
+import com.fr.iem.marvel.models.MarvelImage
+import com.fr.iem.marvel.models.MarvelInfos
+import com.fr.iem.marvel.models.MarvelItems
 import com.google.gson.annotations.SerializedName
+import fr.iem.models.*
 
 data class MarvelComicsResults(
     @SerializedName("id") var id: Int? = null,
@@ -21,15 +25,15 @@ data class MarvelComicsResults(
     @SerializedName("textObjects") var textObjects: ArrayList<MarvelTextObject> = arrayListOf(),
     @SerializedName("resourceURI") var resourceURI: String? = null,
     @SerializedName("urls") var urls: ArrayList<MarvelUrls> = arrayListOf(),
-    @SerializedName("series") var series: MarvelSeries? = MarvelSeries(),
-    @SerializedName("variants") var variants: ArrayList<MarvelVariants> = arrayListOf(),
+    @SerializedName("series") var series: MarvelInfos? = MarvelInfos(),
+    @SerializedName("variants") var variants: ArrayList<MarvelItems> = arrayListOf(),
     @SerializedName("collectedIssues") var collectedIssues: ArrayList<MarvelItems> = arrayListOf(),
     @SerializedName("dates") var dates: ArrayList<MarvelDates> = arrayListOf(),
     @SerializedName("prices") var prices: ArrayList<MarvelPrices> = arrayListOf(),
     @SerializedName("thumbnail") var thumbnail: MarvelImage? = MarvelImage(),
     @SerializedName("images") var images: ArrayList<MarvelImage> = arrayListOf(),
-    @SerializedName("creators") var creators: MarvelCreators? = MarvelCreators(),
-    @SerializedName("characters") var characters: MarvelCharacters? = MarvelCharacters(),
-    @SerializedName("stories") var stories: MarvelStories? = MarvelStories(),
-    @SerializedName("events") var events: MarvelEvents? = MarvelEvents()
+    @SerializedName("creators") var creators: MarvelInfos? = MarvelInfos(),
+    @SerializedName("characters") var characters: MarvelInfos? = MarvelInfos(),
+    @SerializedName("stories") var stories: MarvelInfos? = MarvelInfos(),
+    @SerializedName("events") var events: MarvelInfos? = MarvelInfos()
 )

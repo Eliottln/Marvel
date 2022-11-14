@@ -1,7 +1,8 @@
 package com.fr.iem.marvel.manager.service
 
-import com.fr.iem.marvel.model.character.MarvelCharactersResponse
-import com.fr.iem.marvel.model.comics.MarvelComicsResponse
+import com.fr.iem.marvel.models.characters.MarvelCharactersResponse
+import com.fr.iem.marvel.models.comics.MarvelComicsResponse
+import com.fr.iem.marvel.models.creators.MarvelCreatorsResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -44,6 +45,6 @@ interface RetrofitServiceManager {
     suspend fun getCharactersInComics(@Path("comics_id") comicsId: Int): MarvelCharactersResponse
 
     @GET("/v1/public/comics/{comics_id}/creators")
-    suspend fun getCreatorsOfComics(@Path("comics_id") comicsId: Int): MarvelCharactersResponse
+    suspend fun getCreatorsOfComics(@Path("comics_id") comicsId: Int): MarvelCreatorsResponse
 
 }

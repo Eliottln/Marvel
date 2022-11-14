@@ -7,14 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.fr.iem.marvel.R
 import com.fr.iem.marvel.databinding.FragmentCharactersBinding
-import com.fr.iem.marvel.databinding.FragmentComicsBinding
-import com.fr.iem.marvel.model.character.MarvelCharactersResults
-import com.fr.iem.marvel.model.comics.MarvelComicsResults
+import com.fr.iem.marvel.models.characters.MarvelCharactersResults
 import com.fr.iem.marvel.view.adapters.CharactersAdapter
-import com.fr.iem.marvel.view.adapters.ComicsAdapter
 import com.fr.iem.marvel.viewmodel.HomeViewModel
 import com.fr.iem.marvel.viewmodel.HomeViewModelImpl
 
@@ -30,7 +25,7 @@ class CharactersFragment : Fragment() {
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModelImpl::class.java]
         binding = FragmentCharactersBinding.inflate(layoutInflater)
 
-        val adapter = CharactersAdapter()
+        val adapter = CharactersAdapter(requireContext())
         binding.charactersRv.adapter = adapter
         binding.charactersRv.layoutManager = GridLayoutManager(context, 2)
 

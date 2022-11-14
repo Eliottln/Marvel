@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.fr.iem.marvel.R
-import com.fr.iem.marvel.model.comics.MarvelComicsResults
+import com.fr.iem.marvel.models.comics.MarvelComicsResults
 
 class ComicsAdapter: RecyclerView.Adapter<ComicsAdapter.ViewHolder>() {
 
