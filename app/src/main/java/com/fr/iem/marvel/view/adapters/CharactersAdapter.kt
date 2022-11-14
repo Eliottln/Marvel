@@ -20,12 +20,12 @@ class CharactersAdapter(private val context: Context): RecyclerView.Adapter<Char
         var avatar: ImageView
         init {
             name = view.findViewById(R.id.name_tv)
-            avatar = view.findViewById(R.id.character_iv)
+            avatar = view.findViewById(R.id.item_iv)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.character_item, parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.home_item, parent, false)
         return ViewHolder(layout)
     }
 

@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.fr.iem.marvel.databinding.FragmentComicsBinding
 import com.fr.iem.marvel.models.comics.MarvelComicsResults
 import com.fr.iem.marvel.view.adapters.ComicsAdapter
@@ -25,9 +25,9 @@ class ComicsFragment : Fragment() {
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModelImpl::class.java]
         binding = FragmentComicsBinding.inflate(layoutInflater)
 
-        val adapter = ComicsAdapter()
+        val adapter = ComicsAdapter(requireContext())
         binding.comicsRv.adapter = adapter
-        binding.comicsRv.layoutManager = LinearLayoutManager(context)
+        binding.comicsRv.layoutManager = GridLayoutManager(context, 2)
 
         homeViewModel.comicsList.observe(viewLifecycleOwner) {
             adapter.comicsList = it as ArrayList<MarvelComicsResults>
