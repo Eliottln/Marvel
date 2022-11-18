@@ -12,9 +12,9 @@ import com.fr.iem.marvel.databinding.FragmentComicsDetailsBinding
 import com.fr.iem.marvel.viewmodel.DetailsViewModel
 import com.fr.iem.marvel.viewmodel.DetailsViewModelImpl
 
-class ComicsDetailsFragment: Fragment() {
+class CharactersDetailsFragment: Fragment() {
 
-    private var comicsId: Int = 0
+    private var characterId: Int = 0
     private lateinit var binding: FragmentComicsDetailsBinding
     private lateinit var detailsViewModel: DetailsViewModel
 
@@ -32,23 +32,23 @@ class ComicsDetailsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            comicsId = it.getInt(DetailsActivity.INTENT_ID_COMICS)
+            characterId = it.getInt(DetailsActivity.INTENT_ID_CHARACTER)
         }
 
-        detailsViewModel.comics.observe(viewLifecycleOwner) {
+        detailsViewModel.character.observe(viewLifecycleOwner) {
             binding.progressBar.isVisible = false
             val path = "${it.thumbnail?.path}.${it.thumbnail?.extension ?: "jpg"}"
             Glide.with(requireContext())
                 .load(path)
                 .into(binding.image)
-            binding.name.text = it.title
+            binding.name.text = it.name
             binding.description.text = "Description:\n${it.description}"
 
-
+            
 
         }
 
-        detailsViewModel.getComicsById(comicsId)
+        detailsViewModel.getCharacterById(characterId)
 
     }
 
@@ -56,10 +56,10 @@ class ComicsDetailsFragment: Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(id: Int): ComicsDetailsFragment {
-            return ComicsDetailsFragment().apply {
+        fun newInstance(id: Int): CharactersDetailsFragment {
+            return CharactersDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(DetailsActivity.INTENT_ID_COMICS, id)
+                    putInt(DetailsActivity.INTENT_ID_CHARACTER, id)
                 }
             }
         }
