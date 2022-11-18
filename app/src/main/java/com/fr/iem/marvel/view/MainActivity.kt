@@ -1,45 +1,40 @@
 package com.fr.iem.marvel.view
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.fr.iem.marvel.R
 import com.fr.iem.marvel.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_home) as NavHostFragment
+        navController = navHostFragment.navController
 
         binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.page_comics -> {
-                    switchFragment(ComicsFragment())
+                    navController.navigate(R.id.comicsFragment)
                     true
                 }
                 R.id.page_characters -> {
-                    switchFragment(CharactersFragment())
+                    navController.navigate(R.id.charactersFragment)
                     true
                 }
                 else -> {false}
             }
         }
 
-        setContentView(binding.root)
+
     }
 
-    private fun switchFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(binding.fragmentContainerHome.id, fragment)
-        fragmentTransaction.commit()
-    }
 }
