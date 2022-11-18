@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_comicsFragment_to_charactersFragment"
             app:destination="@id/charactersFragment" />
+        <action
+            android:id="@+id/action_comicsFragment_to_comicsDetailsFragment2"
+            app:destination="@id/comicsDetailsFragment2" />
     </fragment>
     <fragment
         android:id="@+id/charactersFragment"
@@ -22,5 +25,16 @@
         <action
             android:id="@+id/action_charactersFragment_to_comicsFragment"
             app:destination="@id/comicsFragment" />
+        <action
+            android:id="@+id/action_charactersFragment_to_charactersDetailsFragment2"
+            app:destination="@id/charactersDetailsFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/charactersDetailsFragment2"
+        android:name="com.fr.iem.marvel.view.CharactersDetailsFragment"
+        android:label="CharactersDetailsFragment" />
+    <fragment
+        android:id="@+id/comicsDetailsFragment2"
+        android:name="com.fr.iem.marvel.view.ComicsDetailsFragment"
+        android:label="ComicsDetailsFragment" />
 </navigation>

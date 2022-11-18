@@ -43,8 +43,8 @@ class ComicsDetailsFragment: Fragment() {
         val adapter = CharactersAdapter(requireContext()) { id: Int ->
             CharactersDetailsFragment.newInstance(id)
         }
-        binding.listRv.adapter = adapter
-        binding.listRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.listCharacters.adapter = adapter
+        binding.listCharacters.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         detailsViewModel.comics.observe(viewLifecycleOwner) {
             binding.progressBar.isVisible = false
