@@ -26,7 +26,6 @@ class DetailsActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-
         val frg = if (idComics > 0) {
             ComicsDetailsFragment.newInstance(idComics)
         } else {
@@ -36,9 +35,7 @@ class DetailsActivity : AppCompatActivity() {
         switchFragment(frg)
     }
 
-
-
-    private fun switchFragment(fragment: Fragment) {
+    fun switchFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(binding.fragmentContainerDetails.id, fragment)

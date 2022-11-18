@@ -25,7 +25,7 @@ class ComicsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModelImpl::class.java]
-        binding = FragmentComicsBinding.inflate(layoutInflater)
+        binding = FragmentComicsBinding.inflate(inflater, container, false)
 
         val adapter = ComicsAdapter(requireContext()) { id: Int ->
             val intent = Intent(requireActivity(), DetailsActivity::class.java)

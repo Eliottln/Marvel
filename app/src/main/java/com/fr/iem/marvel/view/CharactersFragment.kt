@@ -25,7 +25,7 @@ class CharactersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         homeViewModel = ViewModelProvider(requireActivity())[HomeViewModelImpl::class.java]
-        binding = FragmentCharactersBinding.inflate(layoutInflater)
+        binding = FragmentCharactersBinding.inflate(inflater, container, false)
 
         val adapter = CharactersAdapter(requireContext()) { id: Int ->
             val intent = Intent(requireActivity(), DetailsActivity::class.java)
