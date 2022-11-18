@@ -1,19 +1,21 @@
 package com.fr.iem.marvel.view
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.fr.iem.marvel.databinding.FragmentComicsDetailsBinding
 import com.fr.iem.marvel.models.characters.MarvelCharactersResults
-import com.fr.iem.marvel.view.adapters.CharactersAdapter
+import com.fr.iem.marvel.models.creators.MarvelCreatorsResults
+import com.fr.iem.marvel.view.adapters.CharactersDetailAdapter
+import com.fr.iem.marvel.view.adapters.CreatorsDetailAdapter
 import com.fr.iem.marvel.viewmodel.DetailsViewModel
 import com.fr.iem.marvel.viewmodel.DetailsViewModelImpl
 
@@ -37,14 +39,19 @@ class ComicsDetailsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            comicsId = it.getInt(DetailsActivity.INTENT_ID_COMICS)
+            comicsId = it.getInt(MainActivity.INTENT_ID)
         }
 
-        val adapter = CharactersAdapter(requireContext()) { id: Int ->
-            CharactersDetailsFragment.newInstance(id)
+        val adapterCharacters = CharactersDetailAdapter(requireContext()) { id: Int ->
+            val bundle: Bundle = bundleOf(MainActivity.INTENT_ID to id)
+            findNavController().navigate(ComicsDetailsFragmentDirections.actionComicsDetailsFragmentToCharactersDetailsFragment().actionId, bundle)
         }
-        binding.listCharacters.adapter = adapter
+        binding.listCharacters.adapter = adapterCharacters
         binding.listCharacters.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        val adapterCreators = CreatorsDetailAdapter(requireContext())
+        binding.listCreators.adapter = adapterCreators
+        binding.listCreators.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         detailsViewModel.comics.observe(viewLifecycleOwner) {
             binding.progressBar.isVisible = false
@@ -56,13 +63,19 @@ class ComicsDetailsFragment: Fragment() {
             binding.description.text = "Description:\n${it.description}"
         }
 
-        detailsViewModel.characters.observe(viewLifecycleOwner) {
-            adapter.charactersList = it as ArrayList<MarvelCharactersResults>
-            adapter.notifyDataSetChanged()
+        detailsViewModel.charactersList.observe(viewLifecycleOwner) {
+            adapterCharacters.charactersList = it as ArrayList<MarvelCharactersResults>
+            adapterCharacters.notifyDataSetChanged()
+        }
+
+        detailsViewModel.creatorsList.observe(viewLifecycleOwner) {
+            adapterCreators.creatorsList = it as ArrayList<MarvelCreatorsResults>
+            adapterCharacters.notifyDataSetChanged()
         }
 
         detailsViewModel.getComicsById(comicsId)
         detailsViewModel.getCharactersInComics(comicsId)
+        detailsViewModel.getCreatorsOfComics(comicsId)
 
     }
 
@@ -73,7 +86,7 @@ class ComicsDetailsFragment: Fragment() {
         fun newInstance(id: Int): ComicsDetailsFragment {
             return ComicsDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(DetailsActivity.INTENT_ID_COMICS, id)
+                    putInt(MainActivity.INTENT_ID, id)
                 }
             }
         }

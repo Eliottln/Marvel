@@ -14,8 +14,8 @@
             android:id="@+id/action_comicsFragment_to_charactersFragment"
             app:destination="@id/charactersFragment" />
         <action
-            android:id="@+id/action_comicsFragment_to_comicsDetailsFragment2"
-            app:destination="@id/comicsDetailsFragment2" />
+            android:id="@+id/action_comicsFragment_to_comicsDetailsFragment"
+            app:destination="@id/comicsDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/charactersFragment"
@@ -26,15 +26,23 @@
             android:id="@+id/action_charactersFragment_to_comicsFragment"
             app:destination="@id/comicsFragment" />
         <action
-            android:id="@+id/action_charactersFragment_to_charactersDetailsFragment2"
-            app:destination="@id/charactersDetailsFragment2" />
+            android:id="@+id/action_charactersFragment_to_charactersDetailsFragment"
+            app:destination="@id/charactersDetailsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/charactersDetailsFragment2"
+        android:id="@+id/charactersDetailsFragment"
         android:name="com.fr.iem.marvel.view.CharactersDetailsFragment"
-        android:label="CharactersDetailsFragment" />
+        android:label="CharactersDetailsFragment" >
+        <action
+            android:id="@+id/action_charactersDetailsFragment_to_comicsDetailsFragment"
+            app:destination="@id/comicsDetailsFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/comicsDetailsFragment2"
+        android:id="@+id/comicsDetailsFragment"
         android:name="com.fr.iem.marvel.view.ComicsDetailsFragment"
-        android:label="ComicsDetailsFragment" />
+        android:label="ComicsDetailsFragment" >
+        <action
+            android:id="@+id/action_comicsDetailsFragment_to_charactersDetailsFragment"
+            app:destination="@id/charactersDetailsFragment" />
+    </fragment>
 </navigation>

@@ -35,6 +35,9 @@ interface RetrofitServiceManager {
     @GET("/v1/public/characters/{character_id}")
     suspend fun getCharacterById(@Path("character_id") characterId: Int): MarvelCharactersResponse
 
+    @GET("/v1/public/characters/{character_id}/comics")
+    suspend fun getComicsWithCharacter(@Path("character_id") characterId: Int): MarvelComicsResponse
+
     @GET("/v1/public/comics")
     suspend fun getComics(): MarvelComicsResponse
 
@@ -44,7 +47,7 @@ interface RetrofitServiceManager {
     @GET("/v1/public/comics/{comics_id}/characters")
     suspend fun getCharactersInComics(@Path("comics_id") comicsId: Int): MarvelCharactersResponse
 
-    @GET("/comics/{comics_id}/creators")
+    @GET("/v1/public/comics/{comics_id}/creators")
     suspend fun getCreatorsOfComics(@Path("comics_id") comicsId: Int): MarvelCreatorsResponse
 
 }

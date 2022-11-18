@@ -6,18 +6,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fr.iem.marvel.models.characters.MarvelCharactersResults
 import com.fr.iem.marvel.models.comics.MarvelComicsResults
-import com.fr.iem.marvel.usecase.api.GetCharacterByIdUseCase
-import com.fr.iem.marvel.usecase.api.GetCharactersInComicsUseCase
-import com.fr.iem.marvel.usecase.api.GetComicsByIdUseCase
+import com.fr.iem.marvel.models.creators.MarvelCreatorsResults
+import com.fr.iem.marvel.usecase.api.*
 import kotlinx.coroutines.launch
 
 abstract class DetailsViewModel: ViewModel() {
     abstract fun getComicsById(id: Int)
     abstract fun getCharacterById(id: Int)
     abstract fun getCharactersInComics(id: Int)
+    abstract fun getComicsWithCharacter(id: Int)
+    abstract fun getCreatorsOfComics(id: Int)
     abstract val comics: LiveData<MarvelComicsResults>
     abstract val character: LiveData<MarvelCharactersResults>
-    abstract val characters: LiveData<List<MarvelCharactersResults>>
+    abstract val charactersList: LiveData<List<MarvelCharactersResults>>
+    abstract val comicsList: LiveData<List<MarvelComicsResults>>
+    abstract val creatorsList: LiveData<List<MarvelCreatorsResults>>
 }
 
 
@@ -26,8 +29,12 @@ class DetailsViewModelImpl: DetailsViewModel() {
     override val comics: LiveData<MarvelComicsResults> = _comics
     private val _character = MutableLiveData<MarvelCharactersResults>()
     override val character: LiveData<MarvelCharactersResults> = _character
-    private val _characters = MutableLiveData<List<MarvelCharactersResults>>()
-    override val characters: LiveData<List<MarvelCharactersResults>> = _characters
+    private val _charactersList = MutableLiveData<List<MarvelCharactersResults>>()
+    override val charactersList: LiveData<List<MarvelCharactersResults>> = _charactersList
+    private val _comicsList = MutableLiveData<List<MarvelComicsResults>>()
+    override val comicsList: LiveData<List<MarvelComicsResults>> = _comicsList
+    private val _creatorsList = MutableLiveData<List<MarvelCreatorsResults>>()
+    override val creatorsList: LiveData<List<MarvelCreatorsResults>> = _creatorsList
 
     override fun getComicsById(id: Int) {
         viewModelScope.launch {
@@ -53,7 +60,27 @@ class DetailsViewModelImpl: DetailsViewModel() {
         viewModelScope.launch {
             GetCharactersInComicsUseCase().invoke(id).let { response ->
                 response.data.results.let {
-                    _characters.postValue(it)
+                    _charactersList.postValue(it)
+                }
+            }
+        }
+    }
+
+    override fun getComicsWithCharacter(id: Int) {
+        viewModelScope.launch {
+            GetComicsWithCharacterUseCase().invoke(id).let { response ->
+                response.data.results.let {
+                    _comicsList.postValue(it)
+                }
+            }
+        }
+    }
+
+    override fun getCreatorsOfComics(id: Int) {
+        viewModelScope.launch {
+            GetCreatorsOfComicsUseCase().invoke(id).let { response ->
+                response.data.results.let {
+                    _creatorsList.postValue(it)
                 }
             }
         }

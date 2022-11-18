@@ -5,17 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.fr.iem.marvel.databinding.FragmentComicsDetailsBinding
+import com.fr.iem.marvel.databinding.FragmentCharactersDetailsBinding
+import com.fr.iem.marvel.models.comics.MarvelComicsResults
+import com.fr.iem.marvel.view.adapters.ComicsDetailAdapter
 import com.fr.iem.marvel.viewmodel.DetailsViewModel
 import com.fr.iem.marvel.viewmodel.DetailsViewModelImpl
 
 class CharactersDetailsFragment: Fragment() {
 
     private var characterId: Int = 0
-    private lateinit var binding: FragmentComicsDetailsBinding
+    private lateinit var binding: FragmentCharactersDetailsBinding
     private lateinit var detailsViewModel: DetailsViewModel
 
     override fun onCreateView(
@@ -23,7 +28,7 @@ class CharactersDetailsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        binding = FragmentComicsDetailsBinding.inflate(inflater, container, false)
+        binding = FragmentCharactersDetailsBinding.inflate(inflater, container, false)
         detailsViewModel = ViewModelProvider(requireActivity())[DetailsViewModelImpl::class.java]
 
         return binding.root
@@ -32,8 +37,15 @@ class CharactersDetailsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
-            characterId = it.getInt(DetailsActivity.INTENT_ID_CHARACTER)
+            characterId = it.getInt(MainActivity.INTENT_ID)
         }
+
+        val adapter = ComicsDetailAdapter(requireContext()) { id: Int ->
+            val bundle: Bundle = bundleOf(MainActivity.INTENT_ID to id)
+            findNavController().navigate(CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToComicsDetailsFragment().actionId, bundle)
+        }
+        binding.listComics.adapter = adapter
+        binding.listComics.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         detailsViewModel.character.observe(viewLifecycleOwner) {
             binding.progressBar.isVisible = false
@@ -43,12 +55,15 @@ class CharactersDetailsFragment: Fragment() {
                 .into(binding.image)
             binding.name.text = it.name
             binding.description.text = "Description:\n${it.description}"
+        }
 
-            
-
+        detailsViewModel.comicsList.observe(viewLifecycleOwner) {
+            adapter.comicsList = it as ArrayList<MarvelComicsResults>
+            adapter.notifyDataSetChanged()
         }
 
         detailsViewModel.getCharacterById(characterId)
+        detailsViewModel.getComicsWithCharacter(characterId)
 
     }
 
@@ -59,7 +74,7 @@ class CharactersDetailsFragment: Fragment() {
         fun newInstance(id: Int): CharactersDetailsFragment {
             return CharactersDetailsFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(DetailsActivity.INTENT_ID_CHARACTER, id)
+                    putInt(MainActivity.INTENT_ID, id)
                 }
             }
         }

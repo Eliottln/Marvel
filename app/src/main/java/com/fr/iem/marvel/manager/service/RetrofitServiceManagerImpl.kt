@@ -16,6 +16,10 @@ class RetrofitServiceManagerImpl : RetrofitServiceManager {
         return service.getCharacterById(characterId)
     }
 
+    override suspend fun getComicsWithCharacter(characterId: Int): MarvelComicsResponse {
+        return service.getComicsWithCharacter(characterId)
+    }
+
     override suspend fun getComics(): MarvelComicsResponse {
         return service.getComics()
     }

@@ -9,5 +9,5 @@ data class MarvelCreatorsResponse(
     @SerializedName("attributionText") var attributionText: String? = null,
     @SerializedName("attributionHTML") var attributionHTML: String? = null,
     @SerializedName("etag") var etag: String? = null,
-    @SerializedName("data") var data: MarvelCreatorsData? = MarvelCreatorsData()
+    @SerializedName("data") var data: MarvelCreatorsData = MarvelCreatorsData()
 )
