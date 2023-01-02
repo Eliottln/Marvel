@@ -44,7 +44,8 @@ class ComicsDetailsFragment: Fragment() {
 
         val adapterCharacters = CharactersDetailAdapter(requireContext()) { id: Int ->
             val bundle: Bundle = bundleOf(MainActivity.INTENT_ID to id)
-            findNavController().navigate(ComicsDetailsFragmentDirections.actionComicsDetailsFragmentToCharactersDetailsFragment2().actionId, bundle)
+            if (MainActivity.checkForInternet(requireContext()))
+                findNavController().navigate(ComicsDetailsFragmentDirections.actionComicsDetailsFragmentToCharactersDetailsFragment2().actionId, bundle)
         }
         binding.listCharacters.adapter = adapterCharacters
         binding.listCharacters.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

@@ -30,7 +30,8 @@ class ComicsFragment : Fragment() {
         val adapter = ComicsAdapter(requireContext()) { id: Int ->
             val intent = Intent(requireActivity(), ComicsDetailsActivity::class.java)
             intent.putExtra(ComicsDetailsActivity.INTENT_ID_COMICS, id)
-            startActivity(intent)
+            if (MainActivity.checkForInternet(requireContext()))
+                startActivity(intent)
         }
         binding.comicsRv.adapter = adapter
         binding.comicsRv.layoutManager = GridLayoutManager(context, 2)
@@ -41,7 +42,8 @@ class ComicsFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        homeViewModel.getComics()
+        if (MainActivity.checkForInternet(requireContext()))
+            homeViewModel.getComics()
 
         return binding.root
     }

@@ -30,7 +30,8 @@ class CharactersFragment : Fragment() {
         val adapter = CharactersAdapter(requireContext()) { id: Int ->
             val intent = Intent(requireActivity(), CharactersDetailsActivity::class.java)
             intent.putExtra(CharactersDetailsActivity.INTENT_ID_CHARACTER, id)
-            startActivity(intent)
+            if (MainActivity.checkForInternet(requireContext()))
+                startActivity(intent)
         }
         binding.charactersRv.adapter = adapter
         binding.charactersRv.layoutManager = GridLayoutManager(context, 2)
@@ -41,7 +42,8 @@ class CharactersFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        homeViewModel.getCharacters()
+        if (MainActivity.checkForInternet(requireContext()))
+            homeViewModel.getCharacters()
 
         return binding.root
     }
