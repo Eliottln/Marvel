@@ -21,7 +21,7 @@ import com.fr.iem.marvel.viewmodel.DetailsViewModelImpl
 
 class ComicsDetailsFragment: Fragment() {
 
-    private var comicsId: Int = 0
+    private var comicsId: Int = -1
     private lateinit var binding: FragmentComicsDetailsBinding
     private lateinit var detailsViewModel: DetailsViewModel
 
@@ -44,7 +44,7 @@ class ComicsDetailsFragment: Fragment() {
 
         val adapterCharacters = CharactersDetailAdapter(requireContext()) { id: Int ->
             val bundle: Bundle = bundleOf(MainActivity.INTENT_ID to id)
-            findNavController().navigate(ComicsDetailsFragmentDirections.actionComicsDetailsFragmentToCharactersDetailsFragment().actionId, bundle)
+            findNavController().navigate(ComicsDetailsFragmentDirections.actionComicsDetailsFragmentToCharactersDetailsFragment2().actionId, bundle)
         }
         binding.listCharacters.adapter = adapterCharacters
         binding.listCharacters.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -54,6 +54,7 @@ class ComicsDetailsFragment: Fragment() {
         binding.listCreators.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         detailsViewModel.comics.observe(viewLifecycleOwner) {
+            binding.fragContent.isVisible = true
             binding.progressBar.isVisible = false
             val path = "${it.thumbnail?.path}.${it.thumbnail?.extension ?: "jpg"}"
             Glide.with(requireContext())
@@ -73,9 +74,11 @@ class ComicsDetailsFragment: Fragment() {
             adapterCharacters.notifyDataSetChanged()
         }
 
-        detailsViewModel.getComicsById(comicsId)
-        detailsViewModel.getCharactersInComics(comicsId)
-        detailsViewModel.getCreatorsOfComics(comicsId)
+        if (comicsId > -1) {
+            detailsViewModel.getComicsById(comicsId)
+            detailsViewModel.getCharactersInComics(comicsId)
+            detailsViewModel.getCreatorsOfComics(comicsId)
+        }
 
     }
 

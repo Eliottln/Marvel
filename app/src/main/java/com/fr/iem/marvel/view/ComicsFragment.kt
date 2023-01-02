@@ -6,10 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.fr.iem.marvel.databinding.FragmentComicsBinding
 import com.fr.iem.marvel.models.comics.MarvelComicsResults
@@ -30,8 +28,9 @@ class ComicsFragment : Fragment() {
         binding = FragmentComicsBinding.inflate(inflater, container, false)
 
         val adapter = ComicsAdapter(requireContext()) { id: Int ->
-            val bundle: Bundle = bundleOf(MainActivity.INTENT_ID to id)
-            findNavController().navigate(ComicsFragmentDirections.actionComicsFragmentToComicsDetailsFragment().actionId, bundle)
+            val intent = Intent(requireActivity(), ComicsDetailsActivity::class.java)
+            intent.putExtra(ComicsDetailsActivity.INTENT_ID_COMICS, id)
+            startActivity(intent)
         }
         binding.comicsRv.adapter = adapter
         binding.comicsRv.layoutManager = GridLayoutManager(context, 2)

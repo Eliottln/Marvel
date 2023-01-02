@@ -19,7 +19,7 @@ import com.fr.iem.marvel.viewmodel.DetailsViewModelImpl
 
 class CharactersDetailsFragment: Fragment() {
 
-    private var characterId: Int = 0
+    private var characterId: Int = -1
     private lateinit var binding: FragmentCharactersDetailsBinding
     private lateinit var detailsViewModel: DetailsViewModel
 
@@ -30,7 +30,8 @@ class CharactersDetailsFragment: Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentCharactersDetailsBinding.inflate(inflater, container, false)
         detailsViewModel = ViewModelProvider(requireActivity())[DetailsViewModelImpl::class.java]
-
+        binding.fragContent.isVisible = false
+        binding.progressBar.isVisible = true
         return binding.root
     }
 
@@ -42,12 +43,13 @@ class CharactersDetailsFragment: Fragment() {
 
         val adapter = ComicsDetailAdapter(requireContext()) { id: Int ->
             val bundle: Bundle = bundleOf(MainActivity.INTENT_ID to id)
-            findNavController().navigate(CharactersDetailsFragmentDirections.actionCharactersDetailsFragmentToComicsDetailsFragment().actionId, bundle)
+            findNavController().navigate(CharactersDetailsFragmentDirections.actionCharactersDetailsFragment2ToComicsDetailsFragment().actionId, bundle)
         }
         binding.listComics.adapter = adapter
         binding.listComics.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         detailsViewModel.character.observe(viewLifecycleOwner) {
+            binding.fragContent.isVisible = true
             binding.progressBar.isVisible = false
             val path = "${it.thumbnail?.path}.${it.thumbnail?.extension ?: "jpg"}"
             Glide.with(requireContext())
@@ -62,8 +64,10 @@ class CharactersDetailsFragment: Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        detailsViewModel.getCharacterById(characterId)
-        detailsViewModel.getComicsWithCharacter(characterId)
+        if (characterId > -1) {
+            detailsViewModel.getCharacterById(characterId)
+            detailsViewModel.getComicsWithCharacter(characterId)
+        }
 
     }
 
