@@ -28,8 +28,8 @@ class CharactersFragment : Fragment() {
         binding = FragmentCharactersBinding.inflate(inflater, container, false)
 
         val adapter = CharactersAdapter(requireContext()) { id: Int ->
-            val intent = Intent(requireActivity(), CharactersDetailsActivity::class.java)
-            intent.putExtra(CharactersDetailsActivity.INTENT_ID_CHARACTER, id)
+            val intent = Intent(requireActivity(), DetailsActivity::class.java)
+            intent.putExtra(DetailsActivity.INTENT_ID_CHARACTER, id)
             if (MainActivity.checkForInternet(requireContext()))
                 startActivity(intent)
         }

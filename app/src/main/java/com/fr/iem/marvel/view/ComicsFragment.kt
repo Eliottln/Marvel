@@ -28,8 +28,8 @@ class ComicsFragment : Fragment() {
         binding = FragmentComicsBinding.inflate(inflater, container, false)
 
         val adapter = ComicsAdapter(requireContext()) { id: Int ->
-            val intent = Intent(requireActivity(), ComicsDetailsActivity::class.java)
-            intent.putExtra(ComicsDetailsActivity.INTENT_ID_COMICS, id)
+            val intent = Intent(requireActivity(), DetailsActivity::class.java)
+            intent.putExtra(DetailsActivity.INTENT_ID_COMICS, id)
             if (MainActivity.checkForInternet(requireContext()))
                 startActivity(intent)
         }
